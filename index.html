@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+    <body>
+        <div id="root"></div>
+    </body>
+    <script src="https://www.unpkg.com/react@18.3.1/umd/react.production.min.js">
+        // React JS는 어플리케이션을 interactive하게 만들어주는 library
+    </script>
+    <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js">
+        // React-dom은 모든 React element들을 HTML body에 둘 수 있도록 하는 libray, package
+    </script>
+    <script>
+        const root = document.getElementById("root");
+        const span = React.createElement("span", 
+                            { id:"sexy-span", style: {color: "red"} }, 
+                            "Hello I'm a span"); // React JS로 element 생성하는 방법
+        ReactDOM.render(span, root) // show it to the user / root 안에 span을 넣는다.
+    </script>
+</html>
