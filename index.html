@@ -13,25 +13,46 @@
         // JSX -> React.createElement로 변환
     </script>
     <script type="text/babel">
+        function App() {
+            const [amount, setAmount] = React.useState(0);
+            const [flipped, setFlipped] = React.useState(false);
+            const onChange= (event) => {
+                setAmount(event.target.value);
+            };
+            const reset = () => setAmount(0);
+            const onFilp = () => {reset(); setFlipped((current) => !current);}
+            return (
+                <div>
+                    <h1>Super Converter</h1>
+                    <div>
+                        <label htmlFor="minutes">Minutes</label>
+                        <input
+                            value={flipped ? amount*60 : amount}
+                            id="minutes" 
+                            placeholder="Minutes" 
+                            type="number"
+                            onChange={onChange}
+                            disabled={flipped}
+                        />
+                    </div>
+                    <div>
+                        <label htmlFor="hours">Hours</label>
+                        <input
+                            value={flipped ? amount : Math.round(amount/60)}
+                            id="hours" 
+                            placeholder="Hours" 
+                            type="number" 
+                            disabled={!flipped}
+                            onChange={onChange}
+                        />
+                    </div>
+                    <button onClick={reset}>Reset</button>
+                    <button onClick={onFilp}>{flipped ? "mins -> hours" : "hours -> mins"}</button>
+                </div>
+            );
+        }
+
         const root = document.getElementById("root");
-        let counter = 0;
-        function countUp() {
-            counter = counter + 1;
-            render();
-        }
-        function render() {
-            ReactDOM.render(<Container />, root);
-        }
-        const Container = () => (
-            <div>
-                <h3>
-                    Total Click: {counter}
-                </h3>
-                <button onClick={countUp}>
-                    Click Me
-                </button>
-            </div>
-        );
-        render(); // show it to the user / root 안에 span을 넣는다.
+        ReactDOM.render(<App />, root);
     </script>
 </html>
