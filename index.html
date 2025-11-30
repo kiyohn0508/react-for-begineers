@@ -13,71 +13,28 @@
         // JSX -> React.createElement로 변환
     </script>
     <script type="text/babel">
+        function Btn({text, changeValue}) {
+            return <button
+                onClick={changeValue}
+                style={{
+                    backgroundColor: "tomato",
+                    color:"white",
+                    padding: "10px 20px",
+                    border: 0,
+                    borderRadius:10,
+                }}>{text}</button>
+        }
+        const MemoriedBtn = React.memo(Btn);
         function App() {
-            const [index, setIndex] = React.useState("-1");
-            const onSelect = (event) => {
-                setIndex(event.target.value);
-            }
+            const [value, setValue] = React.useState("Save Changes");
+            const changeValue = () => setValue("Revert Change");
             return (
                 <div>
-                    <h1>Super Converter</h1>
-                    <select onChange={onSelect}>
-                        <option value="-1">Select your units</option>
-                        <option value="0">Minutes & Hours</option>
-                        <option value="1">Km & Miles</option>
-                    </select>
-                    <hr/>
-                    {index === "-1" && "please select your unit"}
-                    {index === "0" && <MinutesToHours />}
-                    {index === "1" && <KmToMiles />}
+                    <MemoriedBtn text={value} changeValue={changeValue} />
+                    <MemoriedBtn text="Confirm"/>
                 </div>
             );
         }
-
-        function KmToMiles() {
-            return (
-                <h3> Km to Miles </h3>
-            );
-        }
-
-        function MinutesToHours() {
-            const [amount, setAmount] = React.useState(0);
-            const [flipped, setFlipped] = React.useState(false);
-            const onChange= (event) => {
-                setAmount(event.target.value);
-            };
-            const reset = () => setAmount(0);
-            const onFilp = () => {reset(); setFlipped((current) => !current);}
-            return (
-                <div>
-                    <div>
-                        <label htmlFor="minutes">Minutes</label>
-                        <input
-                            value={flipped ? amount*60 : amount}
-                            id="minutes" 
-                            placeholder="Minutes" 
-                            type="number"
-                            onChange={onChange}
-                            disabled={flipped}
-                        />
-                    </div>
-                    <div>
-                        <label htmlFor="hours">Hours</label>
-                        <input
-                            value={flipped ? amount : Math.round(amount/60)}
-                            id="hours" 
-                            placeholder="Hours" 
-                            type="number" 
-                            disabled={!flipped}
-                            onChange={onChange}
-                        />
-                    </div>
-                    <button onClick={reset}>Reset</button>
-                    <button onClick={onFilp}>{flipped ? "mins -> hours" : "hours -> mins"}</button>
-                </div>
-            );
-        }
-
         const root = document.getElementById("root");
         ReactDOM.render(<App />, root);
     </script>
